@@ -10,11 +10,11 @@
 
 
 
-# Get the two integers from the user
+# Get two integers from the user
 integer1 = int(input("Enter an integer: "))
 integer2 = int(input("Enter another integer: "))
 
-# Loop through the numbers 1 to 100
+# Loop through numbers 1 to 100
 for i in range(1, 101):
     # If number is evenly divisible by first integer
     if i % integer1 == 0:
