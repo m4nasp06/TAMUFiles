@@ -9,61 +9,33 @@
 #
 
 
+# 'C:/Users/manas/Desktop/TAMUFiles/ENGR102/Module 11/valid_passports.txt'
+# 'C:/Users/manas/Desktop/TAMUFiles/ENGR102/Module 11/scanned_passports.txt'
 def get_passports(file_path):
     passports = []
     with open(file_path, 'r') as f:
         passport = {}
+        start_line = 0
+        i = 0
         for line in f:
             if line == '\n':
+                passport['start_index'] = start_line
+                passport['end_index'] = i
+
                 passports.append(passport)
+                start_line = i
                 passport = {}
             else:
                 for field in line.strip().split():
                     key, value = field.split(':')
                     passport[key] = value
+            i += 1
 
+        passport['start_index'] = start_line
+        passport['end_index'] = i
         passports.append(passport)
     return passports
 
-# def write_valid_passports(valid_passports):
-#     with open('C:/Users/manas/Desktop/TAMUFiles/ENGR102/Module 11/valid_passports.txt', 'w') as f:
-#         for passport in valid_passports:
-#             for key, value in passport.items():
-#                 f.write(f'{key}:{value} ')
-#             f.write('\n')
-#             f.write('\n')
-#         f.write('\n')
-
-# take the scanned_passports.txt, and delete the invalid passports, and keep the valid ones as is
-def write_valid_passports(valid_passports):
-    with open('C:/Users/manas/Desktop/TAMUFiles/ENGR102/Module 11/valid_passports.txt', 'w') as f:
-        with open('C:/Users/manas/Desktop/TAMUFiles/ENGR102/Module 11/scanned_passports.txt', 'r') as g:
-            for line in g:
-                for field in line.strip().split():
-                    key, value = field.split(':')
-                for passport in valid_passports:
-                    if key in passport:
-                        f.write(line)
-                f.write('\n')
-
-
-
-
-
-
-# line_wanted = ''
-# with open('C:/Users/manas/Desktop/TAMUFiles/ENGR102/Module 11/scanned_passports.txt', 'r') as g:
-#     line_wanted = g.readline()
-#     print(line_wanted)
-
-# print(valid_passports[0])
-# key_id, value = line_wanted.split(':')
-# print(key_id)
-
-# if key_id in valid_passports[0]:
-    
-#     print('yes')
-        
 
 def is_valid(passport):
     required_fields = ['byr', 'eyr', 'hgt', 'hcl', 'ecl', 'pid', 'cid']
@@ -72,33 +44,36 @@ def is_valid(passport):
             return False
     return True
 
-
-
-
-
-
-# file_path = input("Enter the name of the file: ")
-file_path = 'C:/Users/manas/Desktop/TAMUFiles/ENGR102/Module 11/scanned_passports.txt'
+input_file_path = input("Enter the name of the file: ")
+# input_file_path = 'C:/Users/sripa/Desktop/TAMUFiles/ENGR102/Module 11/scanned_passports.txt'
 # c:/Users/manas/Desktop/TAMUFiles/ENGR102/Module 11/scanned_passports.txt
+
+# input_file_path = input("Enter the name of the file: ")
 
 valid_passports = []
 
 # call is_valid for each passport in passports, and add to valid_passports if valid
-passports = get_passports(file_path)
+passports = get_passports(input_file_path)
 for passport in passports:
     if is_valid(passport):
         valid_passports.append(passport)
 
-write_valid_passports(valid_passports)
-
-
-
-
-
-
 print("There are", len(valid_passports), "valid passports")
+# function to write valid passports to file, taking in valid passports, use start_index and end_index to write to file
+def write_valid_passports(valid_passports, output_file, input_file):
+    with open(input_file, 'r') as f:
+        with open(output_file, 'w') as f_out:
+            lines = f.readlines()
+            for passport in valid_passports:
+                f_out.write("".join((lines[passport['start_index']:passport['end_index']])))
 
 
+
+
+
+# writing_file = 'C:/Users/sripa/Desktop/TAMUFiles/ENGR102/Module 11/valid_passports.txt'
+writing_file = 'valid_passports.txt'
+write_valid_passports(valid_passports, writing_file , input_file_path)
 
 
 
