@@ -1,0 +1,129 @@
+import random
+
+# Board dimensions and number of players
+BOARD_SIZE = 15
+NUM_SPACES = 56  # Total number of spaces on the track, updated to match the full perimeter
+NUM_PLAYERS = 2  # Number of players
+NUM_PIECES = 4   # Number of pieces per player
+
+# Symbols to represent each player's pieces
+PLAYER_SYMBOLS = ["P1", "P2"]
+
+# Initialize the board and players
+board = [[" " for _ in range(BOARD_SIZE)] for _ in range(BOARD_SIZE)]
+players = {
+    "Player 1": {"pieces": [0, 0, 0, 0], "symbol": PLAYER_SYMBOLS[0]},
+    "Player 2": {"pieces": [0, 0, 0, 0], "symbol": PLAYER_SYMBOLS[1]}
+}
+
+# Function to print the board
+def print_board():
+    for row in board:
+        print(" ".join(row))
+    print()
+
+# Function to clear the board before updating
+def clear_board():
+    for i in range(BOARD_SIZE):
+        for j in range(BOARD_SIZE):
+            if board[i][j] not in ("O", "P1", "P2"):  # Leave the boundaries and player symbols intact
+                board[i][j] = " "
+
+# Function to roll the dice
+def roll_dice():
+    return random.randint(1, 6)
+
+# Function to get the board position based on track index
+def get_board_position(pos):
+    # Define a simplified track around the edges of the board (full perimeter)
+    track_positions = [
+        (0, i) for i in range(BOARD_SIZE)  # Top row, left to right
+    ] + [
+        (i, BOARD_SIZE - 1) for i in range(1, BOARD_SIZE)  # Right column, top to bottom
+    ] + [
+        (BOARD_SIZE - 1, i) for i in range(BOARD_SIZE - 2, -1, -1)  # Bottom row, right to left
+    ] + [
+        (i, 0) for i in range(BOARD_SIZE - 2, 0, -1)  # Left column, bottom to top
+    ]
+    return track_positions[pos % len(track_positions)]
+
+# Function to move a piece
+def move_piece(player_name, piece_index, roll):
+    player = players[player_name]
+    piece_pos = player["pieces"][piece_index]
+
+    if piece_pos == 0:
+        # Move the piece out of home without requiring a 6
+        player["pieces"][piece_index] = 1
+        print(f"{player_name} moved piece {piece_index + 1} out of home to position 1.")
+    else:
+        # Move the piece forward along the track continuously
+        new_position = piece_pos + roll
+        if new_position > NUM_SPACES:
+            new_position -= NUM_SPACES
+        player["pieces"][piece_index] = new_position
+        # Check for collision with opponent's pieces
+        for opponent_name, opponent_data in players.items():
+            if opponent_name != player_name:
+                for opponent_index, opponent_pos in enumerate(opponent_data["pieces"]):
+                    if opponent_pos == new_position:
+                        opponent_data["pieces"][opponent_index] = 0
+                        print(f"{player_name} landed on {opponent_name}'s piece {opponent_index + 1}. {opponent_name}'s piece is sent back to home!")
+        print(f"{player_name} moved piece {piece_index + 1} to position {new_position}.")
+
+# Function to update the board with the current positions of the pieces
+def update_board():
+    clear_board()
+
+    # Place the boundaries and diagonal markers
+    for i in range(BOARD_SIZE):
+        board[0][i] = "O"
+        board[BOARD_SIZE - 1][i] = "O"
+        board[i][0] = "O"
+        board[i][BOARD_SIZE - 1] = "O"
+        board[i][i] = "O"  # Main diagonal
+        board[i][BOARD_SIZE - 1 - i] = "O"  # Anti-diagonal
+
+    # Place each player's pieces on the board
+    for player_name, player_data in players.items():
+        for piece_index, piece_pos in enumerate(player_data["pieces"]):
+            if piece_pos > 0:  # Only place pieces that are on the track
+                x, y = get_board_position(piece_pos - 1)  # Get the board coordinates for the track position
+                board[x][y] = player_data["symbol"]
+
+# Main game loop
+game_over = False
+while not game_over:
+    for player_name in players:
+        update_board()  # Ensure board is updated before printing
+        print_board()
+        print(f"{player_name}'s turn:")
+        input(f"{player_name}, press Enter to roll the dice...")
+        roll = roll_dice()
+        print(f"{player_name} rolled a {roll}")
+
+        # Try to move a piece
+        moved = False
+        for i in range(NUM_PIECES):
+            if players[player_name]["pieces"][i] == 0:
+                move_piece(player_name, i, roll)
+                moved = True
+                break
+            elif players[player_name]["pieces"][i] > 0:
+                move_piece(player_name, i, roll)
+                moved = True
+                break
+
+        # If no piece could move, inform the player
+        if not moved:
+            print(f"{player_name} couldn't move any pieces.")
+
+        # Update the board and check if the player has won
+        update_board()
+        if all(pos == NUM_SPACES for pos in players[player_name]["pieces"]):
+            print_board()
+            print(f"\n{player_name} has won the game!")
+            game_over = True
+            break
+
+print("Game over! Thanks for playing.")
