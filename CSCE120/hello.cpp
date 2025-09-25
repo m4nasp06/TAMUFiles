@@ -36,7 +36,7 @@ unsigned int countLetters(std::string str) {
 
     unsigned int count = 0;
     for (unsigned int i=0; i<str.size(); ++i) {
-        if (isalpha(static_cast<unsigned char>(str.at(i)))) {
+        if (isalpha(static_cast<unsigned char>(str.at(i))) == true) {
             count++;
         }
         else {
