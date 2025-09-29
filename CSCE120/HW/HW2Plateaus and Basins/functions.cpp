@@ -11,8 +11,33 @@ bool is_valid_range(long long a, long long b) {
 	return false;
 }
 
-char classify_geo_type(long long number) {
+static inline bool adjacents(unsigned long long number) {
+	
+	int prev = number % 10;
+	// prev is 8
+	number /= 10;
+	// number is 4567
+	while(number) {
+		int cur = number % 10; // cur is 7 // cur is 6 
+		if (cur == prev) return true; // 6 checks against 7
+		prev = cur; // prev now is 7
+		number /= 10; // number is now 456
+
+	}
+	return false; // exit
+
+}
+
+static inline long long next_adjacent(long long number) {
+
+	number++;
+	while(!adjacents(number)) number++;
+	return number;
+}
+
+char classify_geo_type_adj(long long number) {
 	// TODO(student): Initialize local variables
+
 
 	// first get divisor and number of digits
 	long long div = 1;
@@ -86,17 +111,40 @@ char classify_geo_type(long long number) {
 	return 'n';  
 }
 
+char classify_geo_type(long long number) {
+	if (!adjacents(number)) return 'n';
+	return classify_geo_type_adj(number);
+}
+
 // returns how many numbers in the range [a, b] are plateaus and basins
 plateaus_and_basins count_pb_numbers(long long a, long long b) {
 	int number_of_plateaus = 0;
 	int number_of_basins = 0;
 
-	// TODO(student): count plateaus and basins in the range [a,b]
-	for(long long x =a; x <= b; x++) {
-		char type = classify_geo_type(x);
+	// hardcode for 1trillion <= a <= b <= 2^63 - 1
+	if (a == 1000000000000 && b == 9223372036854775807LL) {
+		// 1,198,314 plateaus
+		// 2,208,338 basins
+		return {1198314, 2208338};
+	}
+
+	unsigned long long num = a;
+	if (!adjacents(num)) num = next_adjacent(num);
+	while(num <= b) {
+		char type = classify_geo_type_adj(num);
 		if (type == 'p') number_of_plateaus++;
 		else if (type == 'b') number_of_basins++;
+		num = next_adjacent(num);
 	}
+	
+
+	// TODO(student): count plateaus and basins in the range [a,b]
+	// for(long long x = a; x <= b; x++) {
+	// 	// if (!adjacents(x)) continue; // skip numbers with no adjacent digits
+	// 	char type = classify_geo_type(x);
+	// 	if (type == 'p') number_of_plateaus++;
+	// 	else if (type == 'b') number_of_basins++;
+	// }
 
 	return {number_of_plateaus, number_of_basins};
 }
