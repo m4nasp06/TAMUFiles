@@ -1,47 +1,43 @@
+
 #include <iostream>
 #include <string>
 
-using namespace std;
+class BankAccount {
+    private:
+        unsigned long long accountNumber;
+        std::string ownerName;
+        double currentBalance;
 
-unsigned int countLetters(std::string str);
-
-int main() {
-    cout << countLetters("Hello, World!") << endl;
-    cout << "Hello, World!" << endl;
-    return 0;
-}
-
-// unsigned int countLetters(std::string str) {
-//     // this function should count the number of letters in a string
-//     // TODO(student): find and fix the error
-
-//     std::cout << "--- countLetters ---" << std::endl;
-
-//     unsigned int count = 0;
-//     for (unsigned int i=0; i<str.size(); ++i) {
-//             if (isalpha(static_cast<unsigned char>(str.at(i)))) {
-//             count++;
-//         }
-//         else {
-//             cout << "Non-letter character: " << str.at(i) << endl;
-//         }
-//     }
-//     return count;
-// }
-unsigned int countLetters(std::string str) {
-    // this function should count the number of letters in a string
-    // TODO(student): find and fix the error
-
-    std::cout << "--- countLetters ---" << std::endl;
-
-    unsigned int count = 0;
-    for (unsigned int i=0; i<str.size(); ++i) {
-        if (isalpha(static_cast<unsigned char>(str.at(i))) == true) {
-            count++;
+    public:
+        // Constructor
+        BankAccount();
+        BankAccount(int accNum, std::string owner, double initialBalance) :
+         accountNumber(accNum), ownerName(owner), currentBalance(initialBalance) {
+            if (accNum < 0) {
+                throw std::invalid_argument("Account number must be >= 0");
+            }
+            
+            
         }
-        else {
-            cout << "Non-letter character: " << str.at(i) << endl;
+        // ~BankAccount();
+
+        double getBalance() const {
+            return currentBalance;
         }
-    }
-    return count;
-}
+        bool deposit(double amt) {
+            if (amt < 0) {
+                return false; // can't deposit a negative amount
+            }
+            currentBalance += amt;
+            return true;
+        }
+        bool withdraw(double amt) {
+            if (amt < 0 || amt > currentBalance) {
+                return false; // can't withdraw a negative amount or more than the current balance
+            }
+            currentBalance -= amt;
+            return true;
+        }
+        
+};
+
