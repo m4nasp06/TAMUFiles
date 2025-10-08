@@ -121,12 +121,12 @@ plateaus_and_basins count_pb_numbers(long long a, long long b) {
 	int number_of_plateaus = 0;
 	int number_of_basins = 0;
 
-	// hardcode for 1trillion <= a <= b <= 2^63 - 1
-	if (a == 1000000000000 && b == 9223372036854775807LL) {
-		// 1,198,314 plateaus
-		// 2,208,338 basins
-		return {1198314, 2208338};
-	}
+	// // hardcode for 1trillion <= a <= b <= 2^63 - 1
+	// if (a == 1000000000000 && b == 9223372036854775807LL) {
+	// 	// 1,198,314 plateaus
+	// 	// 2,208,338 basins
+	// 	return {1198314, 2208338};
+	// }
 
 	unsigned long long num = a;
 	if (!adjacents(num)) num = next_adjacent(num);
