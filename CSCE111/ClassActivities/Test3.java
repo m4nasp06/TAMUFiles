@@ -1,8 +1,8 @@
 
 public class Test3 {
     public static void main(String[] args) {
-        int x;  // Declartion
-        x = 4;  // Initialization
+        // int x;  // Declartion
+        // x = 4;  // Initialization
 
         double r = 3;   // Declaration + Initialization
         double pi = 3.142;
