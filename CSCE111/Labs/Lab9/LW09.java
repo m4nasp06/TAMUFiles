@@ -3,7 +3,6 @@ import java.util.Scanner;
 class LW09 {
 
     public static void main(String[] args) {
-        
         factorials();
     }
 
@@ -24,7 +23,8 @@ class LW09 {
             result *= i;
         }
         System.out.println("Factorial of " + num + " is " + result + ".");
-        
+
+        scnr.close();
     }
 
     public static void factorials() {
@@ -39,9 +39,11 @@ class LW09 {
             System.out.print("Out of range. Enter number between 1 and 12 : ");
             num = scnr.nextInt();
         }
-        
-        System.out.println("Factorial for numbers between 1 and " + num + " are:");
-        
+
+        System.out.println(
+            "Factorial for numbers between 1 and " + num + " are:"
+        );
+
         for (int i = 1; i <= num; i++) {
             // System.out.println("This is i" + i);
             // System.out.println("This is num" + num);
@@ -54,12 +56,12 @@ class LW09 {
             if (i != num) {
                 System.out.print(", ");
             }
-
         }
 
         System.out.println();
 
-    } 
+        scnr.close();
+    }
 
     public static void userSum() {
         Scanner scnr = new Scanner(System.in);
@@ -82,13 +84,13 @@ class LW09 {
         System.out.printf("The sum of values is %.2f%n", sum);
 
         if (count == 0) {
-
             System.out.println("Average is : undefined");
         } else {
-
             double average = sum / count;
             System.out.printf("Average is : %.2f%n", average);
         }
+
+        scnr.close();
     }
 
     public static void userMax() {
@@ -102,12 +104,10 @@ class LW09 {
         num = scnr.nextInt();
 
         while (num != -999) {
-
             if (!hasValue) {
                 max = num;
                 hasValue = true;
-            } 
-            else if (num > max) {
+            } else if (num > max) {
                 max = num;
             }
 
@@ -120,9 +120,7 @@ class LW09 {
         } else {
             System.out.println("The max of values is " + max + ".");
         }
+
+        scnr.close();
     }
-
-
-
-
 }

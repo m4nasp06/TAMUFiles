@@ -23,6 +23,7 @@ public class LW10 {
         // System.out.println("isSorted(a): " + isSorted(a)); // expected: true
         // System.out.println("isSorted(b): " + isSorted(b)); // expected: true
         // System.out.println("isSorted(c): " + isSorted(c)); // expected: false
+        scanner.close();
     }
 
     public static void reverseTraversal(Scanner scnr) {
