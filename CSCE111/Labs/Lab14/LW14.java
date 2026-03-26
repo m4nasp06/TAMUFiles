@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 class LW14 {
 
     public static void main(String[] args) {
@@ -27,5 +29,35 @@ class LW14 {
         if (cleaned.equals(reversed)) {
             return true;
         } else return false;
+    }
+
+    public static void print_pattern() {
+        Scanner scanner = new Scanner(System.in);
+        int n;
+
+        while (true) {
+            System.out.print("Enter a positive odd number: ");
+            n = scanner.nextInt();
+            if (n > 0 && n % 2 != 0) break;
+            System.out.println("Invalid value.");
+        }
+
+        System.out.println("Pattern for " + n + ":");
+
+        int mid = n / 2;
+
+        // Top half
+        for (int i = 0; i <= mid; i++) {
+            int stars = 2 * i + 1;
+            int spaces = mid - i;
+            System.out.println(" ".repeat(spaces) + "*".repeat(stars));
+        }
+
+        // Bottom half
+        for (int i = mid - 1; i >= 0; i--) {
+            int stars = 2 * i + 1;
+            int spaces = mid - i;
+            System.out.println(" ".repeat(spaces) + "*".repeat(stars));
+        }
     }
 }
