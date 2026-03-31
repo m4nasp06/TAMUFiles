@@ -3,9 +3,8 @@ import java.util.Scanner;
 public class LW10 {
 
     public static void main(String[] args) {
-        Scanner scanner = new Scanner(System.in);
+        // Scanner scanner = new Scanner(System.in);
         // reverseTraversal(scanner);
-
         // int a[] = { 1, 2, 3, 4, 5 };
         // int b[] = { 5, 4, 3, 2, 1 };
         // System.out.println(isSortedAsc(a));
@@ -19,14 +18,15 @@ public class LW10 {
         // int a[] = { 1, 2, 3, 4, 5 };
         // int b[] = { 5, 4, 3, 2, 1 };
         // int c[] = { 5, 4, 100, 2, 1 };
-
         // System.out.println("isSorted(a): " + isSorted(a)); // expected: true
         // System.out.println("isSorted(b): " + isSorted(b)); // expected: true
         // System.out.println("isSorted(c): " + isSorted(c)); // expected: false
-        scanner.close();
+        // scanner.close();
     }
 
-    public static void reverseTraversal(Scanner scnr) {
+    public static void reverseTraversal() {
+        Scanner scnr = new Scanner(System.in);
+
         System.out.print("Enter array size : ");
         int size = scnr.nextInt();
         int[] array = new int[size];
@@ -35,7 +35,7 @@ public class LW10 {
             array[i - 1] = scnr.nextInt();
         }
 
-        System.out.print("Array in reverse is : ");
+        System.out.println("Array in reverse is : ");
         for (int i = array.length - 1; i >= 0; i--) {
             if (i != 0) {
                 System.out.print(array[i] + ", ");
