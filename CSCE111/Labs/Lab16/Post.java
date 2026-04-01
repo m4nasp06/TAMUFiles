@@ -32,10 +32,7 @@ public class Post {
                 String tag = "";
                 int j = i + 1;
 
-                while (
-                    j < postText.length() &&
-                    Character.isLetterOrDigit(postText.charAt(j))
-                ) {
+                while ( j < postText.length() && Character.isLetterOrDigit(postText.charAt(j))) {
                     tag += Character.toLowerCase(postText.charAt(j));
                     j++;
                 }
