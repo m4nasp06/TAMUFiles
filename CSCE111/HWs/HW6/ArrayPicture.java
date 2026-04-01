@@ -3,6 +3,8 @@ import java.io.*;
 /*
   Manas Paramathmuni
   CSCE 111
+  635002312
+  Section 503
   Writing file example, in a method.
   Creating ppm File output.ppm
 
@@ -14,7 +16,7 @@ public class ArrayPicture {
     public static void main(String[] args) {
         //set the size of your square 600.
         int mySize = 1000;
-        //build 3 parallel arrays. You can rename them if you want.
+        //build 3 parallel arrays. You can rename them if you want. 
         int[][] red = new int[mySize][mySize];
         int[][] green = new int[mySize][mySize];
         int[][] blue = new int[mySize][mySize];
@@ -58,12 +60,21 @@ public class ArrayPicture {
             }
         }
 
-
         // when arrays are filled, send them to writeFile
         writeFile(red, green, blue, "C");
 
         // TODO (Student)
         // convert your image to gray scale (Black and white)
+        for (int i = 0; i < mySize; i++) {
+            for (int j = 0; j < mySize; j++) {
+                int gray = (int) (.3 * red[i][j] +
+                    .59 * green[i][j] +
+                    .11 * blue[i][j]);
+                red[i][j] = gray;
+                green[i][j] = gray;
+                blue[i][j] = gray;
+            }
+        }
 
         // when arrays are filled, send them to writeFile
         writeFile(red, green, blue, "G");
