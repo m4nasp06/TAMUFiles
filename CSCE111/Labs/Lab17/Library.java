@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class Library {
+
     // attributes
     private String libraryName;
     private ArrayList<Member> members;
@@ -9,6 +10,8 @@ public class Library {
     // constructors
     public Library(String name) {
         this.libraryName = name;
+        this.members = new ArrayList<>();
+        this.books = new ArrayList<>();
     }
 
     // methods
@@ -20,7 +23,9 @@ public class Library {
         // loop over books to find max bookID
         int last = 0;
         for (int i = 0; i < books.size(); i++) {
-            last = i;
+            if (books.get(i).bookID > last) {
+                last = books.get(i).bookID;
+            }
         }
 
         // add one to max (if empty, will be 0)
@@ -29,88 +34,86 @@ public class Library {
         // Create a new book with the bookID and the given arguments. Add it to books.
         Book newBook = new Book(last, isbn, title, authors);
         books.add(newBook);
-        
+
         // print book added when done
-        System.out.print("Book Added");
+        System.out.println("Book Added");
     }
 
-    /**
-     * Loop over the members to find the maximum memberID. Add 1 to maximum to get memberID for the new member. If there are no members then first memberID should be 1.
-        Create a new member with the memberID and the given arguments. Add it to members.
-        Print "Member Added" when done.
-     * 
-     */
     public void addMember(String name) {
-        
         // loop over members to find max memberID
         int ID = 0;
         for (int i = 0; i < members.size(); i++) {
-            ID = i;
+            if (members.get(i).memberID > ID) {
+                ID = members.get(i).memberID;
+            }
         }
         // add one to max (if empty, will be 0)
         ID += 1;
         // Create a new member with the memberID and the given arguments. Add it to members.
         Member newMember = new Member(ID, name);
         members.add(newMember);
-        System.out.print("Member Added");
-
-        
+        System.out.println("Member Added");
     }
-
-    // Loop over the books to find which contain the partialTiltle in the book title. 
-    // The check must be case insensitive. 
-    // Print all partialTitle matches. 
-    // Print both bookID and complete Title for each match.
 
     public void findBook(String partialTitle) {
         for (int j = 0; j < books.size(); j++) {
-            if (books.get(j).getTitle().toLowerCase().equals(partialTitle)) {
-                System.out.print(books.get(j).bookID + " " + books.get(j).getTitle());
+            if (
+                books
+                    .get(j)
+                    .getTitle()
+                    .toLowerCase()
+                    .contains(partialTitle.toLowerCase())
+            ) {
+                System.out.println(
+                    "ID: " +
+                        books.get(j).bookID +
+                        " | Title: " +
+                        books.get(j).getTitle()
+                );
             }
         }
     }
 
-    // Loop over the books to find by bookID. Print the status of the book.
     public void checkBookStatus(int bookID) {
         for (int k = 0; k < books.size(); k++) {
             if (books.get(k).bookID == bookID) {
-                System.out.print(books.get(k).getStatus());
+                String status = books.get(k).getStatus()
+                    ? "Checked Out"
+                    : "Available";
+                System.out.println(
+                    "ID: " +
+                        books.get(k).bookID +
+                        " | Title: " +
+                        books.get(k).getTitle() +
+                        " | Status: " +
+                        status
+                );
             }
         }
     }
 
-    // Loop over the books to find the Book object by bookID. 
-    // Loop over the members to find the Member object by memberID. 
-    // Issue the book to the member. Mark the book as checked out.
-    // Print "Book issued"
     public void issueBook(int bookID, int memberID) {
         for (int i = 0; i < books.size(); i++) {
             if (books.get(i).bookID == bookID) {
-                for (int j = 0; j <members.size(); j++) {
+                for (int j = 0; j < members.size(); j++) {
                     if (members.get(j).memberID == memberID) {
-                        books.get(i).checkOut();
-                        System.out.print("Book issued");
+                        members.get(j).issueBook(books.get(i));
+                        books.get(i).checkout();
+                        System.out.println("Book issued");
                     }
                 }
             }
         }
     }
 
-
-    /**
-     * Loop over the books to find the Book object by bookID. Loop over the members to find the Member object by memberID. member returns the Book. Mark the book checked in.
-        Print "Book returned"
-     * 
-     */
     public void returnBook(int bookID, int memberID) {
-        
         for (int i = 0; i < books.size(); i++) {
             if (books.get(i).bookID == bookID) {
                 for (int j = 0; j < members.size(); j++) {
                     if (members.get(j).memberID == memberID) {
                         members.get(j).returnBook(books.get(i));
-                        books.get(i).checkIn();
-                        System.out.print("Book returned");
+                        books.get(i).checkin();
+                        System.out.println("Book returned");
                     }
                 }
             }

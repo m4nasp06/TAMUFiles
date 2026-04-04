@@ -1,4 +1,5 @@
 public class Book {
+
     // attributes
     public final int bookID;
     private String isbn;
@@ -13,7 +14,7 @@ public class Book {
         this.title = title;
         this.author = author;
     }
-    
+
     // methods
     public String getTitle() {
         return title;
@@ -23,11 +24,11 @@ public class Book {
         return isCheckedOut;
     }
 
-    public void checkOut() {
+    public void checkout() {
         isCheckedOut = true;
     }
 
-    public void checkIn() {
+    public void checkin() {
         isCheckedOut = false;
     }
 }

@@ -1,42 +1,20 @@
 import java.util.Scanner;
 
-
 public class LibraryInterface {
 
-    /**
-     * This will contain your main function to interact with the user. The interface should work as follows.
-
-At the beginning of your main function ask the user for the library name.
-Create a Library object with the provided name.
-Print a welcome message. Example shown in full example.
-Present user with a menu shown below:
-Select your option:
-1 - Add a new Book.
-2 - Add a new Member.
-3 - Find book by title.
-4 - Check book status by bookID.
-5 - Check out a book to member.
-6 - Check in a book.
-7 - Exit
-Enter your selection (1-7): 
-This menu should be repeated after every operation. Remember, you can copy the prompts from the given examples.
-Validate the user input. It should be a number between 1-7. If it is out of range then print the message "Invalid Selection" and repeat the menu.
-For each selection, ask the user for further information needed for the operation and invoke the appropriate library methods.
-For simplicity, we will not test cases with invalid input for the operations.
-     * 
-     * 
-     */
     public static void main(String[] args) {
         Scanner scnr = new Scanner(System.in);
         System.out.print("Enter the library name: ");
         String libraryName = scnr.nextLine();
         Library library = new Library(libraryName);
         System.out.println();
-        System.out.println("Welcome to the " + libraryName + " Management System!");
-        System.out.println();
+        System.out.println(
+            "Welcome to the " + libraryName + " Management System!"
+        );
 
         boolean exit = false;
         while (!exit) {
+            System.out.println();
             System.out.println("Select your option:");
             System.out.println("1 - Add a new Book.");
             System.out.println("2 - Add a new Member.");
@@ -45,17 +23,23 @@ For simplicity, we will not test cases with invalid input for the operations.
             System.out.println("5 - Check out a book to member.");
             System.out.println("6 - Check in a book.");
             System.out.println("7 - Exit.");
-            System.out.println("Enter your selection (1-7): ");
-            int selection = scnr.nextInt();
-            
+            System.out.print("Enter your selection (1-7): ");
+            String input = scnr.nextLine();
+            int selection = 0;
+            if (
+                input.length() == 1 &&
+                input.charAt(0) >= '1' &&
+                input.charAt(0) <= '7'
+            ) {
+                selection = input.charAt(0) - '0';
+            }
+
             switch (selection) {
                 case 1:
                     System.out.print("Enter ISBN: ");
-                    String isbn = scnr.nextLine(); // Consume the newline
-                    System.out.println();
+                    String isbn = scnr.nextLine();
                     System.out.print("Enter Title: ");
                     String title = scnr.nextLine();
-                    System.out.println();
                     System.out.print("Enter Author(s): ");
                     String authors = scnr.nextLine();
                     library.addBook(isbn, title, authors);
@@ -66,37 +50,37 @@ For simplicity, we will not test cases with invalid input for the operations.
                     library.addMember(name);
                     break;
                 case 3:
-                    System.out.print("Enter Title: ");
+                    System.out.print("Enter partial title to search: ");
                     String searchTitle = scnr.nextLine();
                     library.findBook(searchTitle);
                     break;
-                case 4: 
+                case 4:
                     System.out.print("Enter Book ID: ");
-                    int bookID = scnr.nextInt();
+                    int bookID = Integer.parseInt(scnr.nextLine());
                     library.checkBookStatus(bookID);
                     break;
                 case 5:
                     System.out.print("Enter Book ID: ");
-                    int checkoutBookID = scnr.nextInt();
+                    int checkoutBookID = Integer.parseInt(scnr.nextLine());
                     System.out.print("Enter Member ID: ");
-                    int memberID = scnr.nextInt();
+                    int memberID = Integer.parseInt(scnr.nextLine());
                     library.issueBook(checkoutBookID, memberID);
                     break;
                 case 6:
                     System.out.print("Enter Book ID: ");
-                    int checkinBookID = scnr.nextInt();
-                    System.out.println();
+                    int checkinBookID = Integer.parseInt(scnr.nextLine());
                     System.out.print("Enter Member ID: ");
-                    int checkinMemberID = scnr.nextInt();
-                    library.returnBook(checkinBookID , checkinMemberID);
+                    int checkinMemberID = Integer.parseInt(scnr.nextLine());
+                    library.returnBook(checkinBookID, checkinMemberID);
                     break;
                 case 7:
                     System.out.print("Exiting the system. Goodbye!");
+                    exit = true;
+                    break;
+                default:
+                    System.out.println("Invalid Selection");
+                    break;
             }
-
         }
-        
-        
     }
-    
 }

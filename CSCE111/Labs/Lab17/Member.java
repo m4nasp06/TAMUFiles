@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 
 public class Member {
+
     // attributes
     public final int memberID;
     private String name;
@@ -10,6 +11,7 @@ public class Member {
     public Member(int memberID, String name) {
         this.memberID = memberID;
         this.name = name;
+        this.books = new ArrayList<>();
     }
 
     // methods
