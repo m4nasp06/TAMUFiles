@@ -18,6 +18,30 @@ public class Player {
         this.allIn = false;
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public int getChips() {
+        return chips;
+    }
+
+    public Hand getHand() {
+        return hand;
+    }
+
+    public int getCurrentBet() {
+        return currentBet;
+    }
+
+    public boolean isFolded() {
+        return folded;
+    }
+
+    public boolean isAllIn() {
+        return allIn;
+    }
+
     public int placeBet(int amount) {
         chips -= amount;
         currentBet += amount;
@@ -44,30 +68,6 @@ public class Player {
 
     public void resetBet() {
         currentBet = 0;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getChips() {
-        return chips;
-    }
-
-    public Hand getHand() {
-        return hand;
-    }
-
-    public int getCurrentBet() {
-        return currentBet;
-    }
-
-    public boolean isFolded() {
-        return folded;
-    }
-
-    public boolean isAllIn() {
-        return allIn;
     }
 
     public void makeDecision(int potCurrentBet, Pot pot, Scanner scanner) {

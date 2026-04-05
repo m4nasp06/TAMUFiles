@@ -12,21 +12,6 @@ public class Hand {
         yourHand = new ArrayList<Card>();
     }
 
-    public void addCard(Card c) {
-        holeCards.add(c);
-    }
-
-    public void clearHand() {
-        holeCards.clear();
-        handValue = 0;
-        yourHand.clear();
-    }
-
-    public void setHandValue(int value, ArrayList<Card> best) {
-        handValue = value;
-        yourHand = best;
-    }
-
     public ArrayList<Card> getHoleCards() {
         return holeCards;
     }
@@ -37,5 +22,20 @@ public class Hand {
 
     public ArrayList<Card> getYourHand() {
         return yourHand;
+    }
+
+    public void setHandValue(int value, ArrayList<Card> best) {
+        handValue = value;
+        yourHand = best;
+    }
+
+    public void addCard(Card c) {
+        holeCards.add(c);
+    }
+
+    public void clearHand() {
+        holeCards.clear();
+        handValue = 0;
+        yourHand.clear();
     }
 }
