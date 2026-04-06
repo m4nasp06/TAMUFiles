@@ -4,12 +4,12 @@ public class Hand {
 
     private ArrayList<Card> holeCards;
     private int handValue;
-    private ArrayList<Card> yourHand;
+    private ArrayList<Card> yourBestHand;
 
     Hand() {
         holeCards = new ArrayList<Card>();
         handValue = 0;
-        yourHand = new ArrayList<Card>();
+        yourBestHand = new ArrayList<Card>();
     }
 
     public ArrayList<Card> getHoleCards() {
@@ -20,13 +20,13 @@ public class Hand {
         return handValue;
     }
 
-    public ArrayList<Card> getYourHand() {
-        return yourHand;
+    public ArrayList<Card> getYourBestHand() {
+        return yourBestHand;
     }
 
     public void setHandValue(int value, ArrayList<Card> best) {
         handValue = value;
-        yourHand = best;
+        yourBestHand = best;
     }
 
     public void addCard(Card c) {
@@ -36,6 +36,6 @@ public class Hand {
     public void clearHand() {
         holeCards.clear();
         handValue = 0;
-        yourHand.clear();
+        yourBestHand.clear();
     }
 }

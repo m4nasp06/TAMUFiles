@@ -26,7 +26,7 @@ public class Player {
         return chips;
     }
 
-    public Hand getHand() {
+    public Hand getPlayerHand() {
         return hand;
     }
 
@@ -71,11 +71,10 @@ public class Player {
     }
 
     public void makeDecision(int potCurrentBet, Pot pot, Scanner scanner) {
-        System.out.print("--- Pass to " + name + " and press Enter ---");
+        System.out.println("--- Pass to " + name + " and press Enter ---");
         scanner.nextLine();
-        System.out.print("Your hole cards: ");
-        for (Card c : hand.getHoleCards()) System.out.print(c + " ");
-        System.out.println();
+        System.out.println("Your hole cards:");
+        System.out.println(Card.renderCards(hand.getHoleCards()));
 
         while (true) {
             System.out.println(name + ", your current chips: " + chips);
@@ -86,6 +85,7 @@ public class Player {
             switch (action) {
                 case "fold":
                     fold();
+                    System.out.println();
                     return;
                 case "check":
                     if (potCurrentBet > this.currentBet) {
@@ -94,15 +94,18 @@ public class Player {
                         );
                         break;
                     }
+                    System.out.println();
                     return;
                 case "call":
                     placeBet(potCurrentBet - this.currentBet);
+                    System.out.println();
                     return;
                 case "raise":
                     System.out.print("Enter raise amount: ");
                     int raiseAmount = scanner.nextInt();
                     scanner.nextLine();
                     placeBet((potCurrentBet - this.currentBet) + raiseAmount);
+                    System.out.println();
                     return;
                 default:
                     System.out.println("Invalid action. Please try again.");

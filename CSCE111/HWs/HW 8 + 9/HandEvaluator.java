@@ -20,7 +20,7 @@ public class HandEvaluator {
         allCards.addAll(hand.getHoleCards());
         allCards.addAll(community);
         ArrayList<Card> bestHand = new ArrayList<Card>();
-        int highestValue = 0;
+        int highestValue = -1;
         for (int i = 0; i < 7; i++) {
             for (int j = i + 1; j < 7; j++) {
                 ArrayList<Card> five = new ArrayList<Card>();
