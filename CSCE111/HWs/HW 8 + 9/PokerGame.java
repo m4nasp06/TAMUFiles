@@ -67,13 +67,16 @@ public class PokerGame {
     }
 
     private void displayCommunity() {
-        System.out.print("Community cards: ");
+        System.out.println("Community cards: ");
         if (community.isEmpty()) {
             System.out.println("[none yet]");
-        } else {
-            for (Card c : community) System.out.print(c + " ");
-            System.out.println();
+            return;
         }
+        // else {
+        //     for (Card c : community) System.out.print(c + " ");
+        //     System.out.println();
+        // }
+        System.out.println(Card.renderCards(community));
     }
 
     private void resetStreet() {
@@ -112,8 +115,8 @@ public class PokerGame {
 
     public void dealHoleCards() {
         for (Player p : players) {
-            p.getHand().addCard(deck.dealCard());
-            p.getHand().addCard(deck.dealCard());
+            p.getPlayerHand().addCard(deck.dealCard());
+            p.getPlayerHand().addCard(deck.dealCard());
         }
     }
 
@@ -152,7 +155,7 @@ public class PokerGame {
         // find best hand value
         for (Player p : players) {
             if (!p.isFolded()) {
-                int value = evaluator.evaluate(p.getHand(), community);
+                int value = evaluator.evaluate(p.getPlayerHand(), community);
                 if (value > bestValue) bestValue = value;
             }
         }
@@ -160,7 +163,9 @@ public class PokerGame {
         // collect all players tied at best value
         ArrayList<Player> winners = new ArrayList<Player>();
         for (Player p : players) {
-            if (!p.isFolded() && p.getHand().getHandValue() == bestValue) {
+            if (
+                !p.isFolded() && p.getPlayerHand().getHandValue() == bestValue
+            ) {
                 winners.add(p);
             }
         }
@@ -178,9 +183,15 @@ public class PokerGame {
             System.out.println(
                 "Winning hand: " + HandEvaluator.HAND_NAMES[bestValue]
             );
-            for (Card c : winners.get(0).getHand().getYourHand()) {
-                System.out.print(c + " ");
-            }
+            // for (Card c : winners.get(0).getHand().getYourHand()) {
+            //     System.out.print(c + " ");
+            // }
+            System.out.println(
+                Card.renderCards(
+                    winners.get(0).getPlayerHand().getYourBestHand()
+                )
+            );
+
             System.out.println();
         } else {
             System.out.println(

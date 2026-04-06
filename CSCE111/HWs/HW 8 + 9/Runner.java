@@ -53,7 +53,5 @@ public class Runner {
 
         PokerGame game = new PokerGame(players, smallBlind, scanner);
         game.startGame();
-
-        scanner.close();
     }
 }
