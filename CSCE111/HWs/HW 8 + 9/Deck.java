@@ -3,7 +3,7 @@ import java.util.ArrayList;
 public class Deck {
 
     private ArrayList<Card> cards;
-    private final String[] SUITS = { "H", "S", "C", "D" };
+    private final String[] SUITS = { "♥", "♠", "♣", "♦" };
 
     Deck() {
         cards = new ArrayList<Card>();

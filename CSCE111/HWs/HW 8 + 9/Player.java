@@ -97,14 +97,18 @@ public class Player {
                     System.out.println();
                     return;
                 case "call":
-                    placeBet(potCurrentBet - this.currentBet);
+                    placeBet(Math.min(potCurrentBet - this.currentBet, chips));
                     System.out.println();
                     return;
                 case "raise":
-                    System.out.print("Enter raise amount: ");
+                    System.out.print("Enter total chips to put in (min " + (potCurrentBet - this.currentBet + 1) + ", max " + chips + "): ");
                     int raiseAmount = scanner.nextInt();
                     scanner.nextLine();
-                    placeBet((potCurrentBet - this.currentBet) + raiseAmount);
+                    if (raiseAmount < (potCurrentBet - this.currentBet + 1) || raiseAmount > chips) {
+                        System.out.println("Invalid raise amount.");
+                        break;
+                    }
+                    placeBet(raiseAmount);
                     System.out.println();
                     return;
                 default:

@@ -26,9 +26,19 @@ public class PokerGame {
     public void startGame() {
         while (players.size() > 1) {
             int smallBlindIdx = (dealer + 1) % players.size();
+            Player dealerPlayer = players.get(dealer);
             playHand(smallBlindIdx);
             eliminateBroke();
-            dealer = (dealer + 1) % players.size(); // Move dealer button
+            if (players.size() > 1) {
+                int newDealerIdx = players.indexOf(dealerPlayer);
+                if (newDealerIdx >= 0) {
+                    // Dealer survived — advance from their current index
+                    dealer = (newDealerIdx + 1) % players.size();
+                } else {
+                    // Dealer was eliminated — the next player inherits the position
+                    dealer = dealer % players.size();
+                }
+            }
         }
 
         System.out.println("Game Over! Winner: " + players.get(0).getName());
@@ -67,11 +77,12 @@ public class PokerGame {
     }
 
     private void displayCommunity() {
+        if (community.isEmpty()) return;
         System.out.println("Community cards: ");
-        if (community.isEmpty()) {
-            System.out.println("[none yet]");
-            return;
-        }
+        // if (community.isEmpty()) {
+        //     System.out.println("[none yet]");
+        //     return;
+        // }
         // else {
         //     for (Card c : community) System.out.print(c + " ");
         //     System.out.println();
@@ -99,17 +110,22 @@ public class PokerGame {
 
     public void postBlinds(int smallBlindIdx) {
         int bigBlindIdx = ((smallBlindIdx + 1) % players.size());
-        players.get(smallBlindIdx).placeBet(smallBlind);
+        int sbActual = Math.min(
+            smallBlind,
+            players.get(smallBlindIdx).getChips()
+        );
+        players.get(smallBlindIdx).placeBet(sbActual);
         System.out.println(
             players.get(smallBlindIdx).getName() +
                 " posts small blind: " +
-                smallBlind
+                sbActual
         );
-        players.get(bigBlindIdx).placeBet(bigBlind);
+        int bbActual = Math.min(bigBlind, players.get(bigBlindIdx).getChips());
+        players.get(bigBlindIdx).placeBet(bbActual);
         System.out.println(
-            players.get(bigBlindIdx).getName() + " posts big blind: " + bigBlind
+            players.get(bigBlindIdx).getName() + " posts big blind: " + bbActual
         );
-        pot.addChips(smallBlind + bigBlind);
+        pot.addChips(sbActual + bbActual);
         pot.setCurrentBet(bigBlind);
     }
 
@@ -121,6 +137,10 @@ public class PokerGame {
     }
 
     public void bettingRound(int startIdx) {
+        int active = 0;
+        for (Player p : players) if (!p.isFolded()) active++;
+        if (active <= 1) return;
+
         int potCurrentBet = pot.getCurrentBet();
         boolean raised = true;
         while (raised) {
@@ -136,6 +156,11 @@ public class PokerGame {
                         pot.setCurrentBet(potCurrentBet);
                         raised = true;
                     }
+                    int activePlayers = 0;
+                    for (Player pl : players) {
+                        if (!pl.isFolded()) activePlayers++;
+                    }
+                    if (activePlayers <= 1) return;
                 }
             }
         }
@@ -177,7 +202,8 @@ public class PokerGame {
             for (int i = 1; i < winners.size(); i++) {
                 int cmp = evaluator.compareHands(
                     winners.get(i).getPlayerHand().getYourBestHand(),
-                    trueWinners.get(0).getPlayerHand().getYourBestHand()
+                    trueWinners.get(0).getPlayerHand().getYourBestHand(),
+                    bestValue
                 );
                 if (cmp > 0) {
                     trueWinners.clear();
@@ -198,6 +224,15 @@ public class PokerGame {
                     pot.getPotSize() +
                     " chips!"
             );
+            // Print both players chip count
+            // for (Player p : players) {
+            //     System.out.println(
+            //         "Player: " +
+            //             p.getName() +
+            //             "has this amount of chips:" +
+            //             p.getChips()
+            //     );
+            // }
             // Print winning hand
             System.out.println(
                 "Winning hand: " + HandEvaluator.HAND_NAMES[bestValue]

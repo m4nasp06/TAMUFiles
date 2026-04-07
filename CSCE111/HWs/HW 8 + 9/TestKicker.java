@@ -83,7 +83,7 @@ public class TestKicker {
             String winner = val1 > val2 ? "Player 1" : "Player 2";
             System.out.println("Winner by hand rank: " + winner);
         } else {
-            int cmp = eval.compareHands(h1.getYourBestHand(), h2.getYourBestHand());
+            int cmp = eval.compareHands(h1.getYourBestHand(), h2.getYourBestHand(), val1);
             if (cmp > 0) System.out.println("Winner by kicker: Player 1");
             else if (cmp < 0) System.out.println("Winner by kicker: Player 2");
             else System.out.println("Result: TRUE TIE");
