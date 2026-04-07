@@ -170,6 +170,25 @@ public class PokerGame {
             }
         }
 
+        // break ties by comparing cards (kicker / high card)
+        if (winners.size() > 1) {
+            ArrayList<Player> trueWinners = new ArrayList<Player>();
+            trueWinners.add(winners.get(0));
+            for (int i = 1; i < winners.size(); i++) {
+                int cmp = evaluator.compareHands(
+                    winners.get(i).getPlayerHand().getYourBestHand(),
+                    trueWinners.get(0).getPlayerHand().getYourBestHand()
+                );
+                if (cmp > 0) {
+                    trueWinners.clear();
+                    trueWinners.add(winners.get(i));
+                } else if (cmp == 0) {
+                    trueWinners.add(winners.get(i));
+                }
+            }
+            winners = trueWinners;
+        }
+
         if (winners.isEmpty()) return;
         int split = pot.getPotSize() / winners.size();
         if (winners.size() == 1) {
@@ -183,9 +202,7 @@ public class PokerGame {
             System.out.println(
                 "Winning hand: " + HandEvaluator.HAND_NAMES[bestValue]
             );
-            // for (Card c : winners.get(0).getHand().getYourHand()) {
-            //     System.out.print(c + " ");
-            // }
+
             System.out.println(
                 Card.renderCards(
                     winners.get(0).getPlayerHand().getYourBestHand()
@@ -200,6 +217,9 @@ public class PokerGame {
                     " chips between " +
                     winners.size() +
                     " players."
+            );
+            System.out.println(
+                "Tied hand: " + HandEvaluator.HAND_NAMES[bestValue]
             );
         }
         for (Player w : winners) {

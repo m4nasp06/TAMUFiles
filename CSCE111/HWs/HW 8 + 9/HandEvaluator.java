@@ -30,7 +30,7 @@ public class HandEvaluator {
                     }
                 }
                 int value = handValue(five);
-                if (value > highestValue) {
+                if (value > highestValue || (value == highestValue && compareHands(five, bestHand) > 0)) {
                     highestValue = value;
                     bestHand = five;
                 }
@@ -71,6 +71,30 @@ public class HandEvaluator {
         if (trips == 1) return 3;
         if (pairs == 2) return 2;
         if (pairs == 1) return 1;
+        return 0;
+    }
+
+    private int[] getSortedRanks(ArrayList<Card> cards) {
+        int[] ranks = new int[cards.size()];
+        for (int i = 0; i < cards.size(); i++) ranks[i] = cards.get(i).getRank();
+        for (int i = 1; i < ranks.length; i++) {
+            int key = ranks[i];
+            int j = i - 1;
+            while (j >= 0 && ranks[j] < key) {
+                ranks[j + 1] = ranks[j];
+                j--;
+            }
+            ranks[j + 1] = key;
+        }
+        return ranks;
+    }
+
+    public int compareHands(ArrayList<Card> a, ArrayList<Card> b) {
+        int[] ra = getSortedRanks(a);
+        int[] rb = getSortedRanks(b);
+        for (int i = 0; i < ra.length && i < rb.length; i++) {
+            if (ra[i] != rb[i]) return ra[i] - rb[i];
+        }
         return 0;
     }
 
