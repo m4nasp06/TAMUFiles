@@ -80,7 +80,9 @@ public class Player {
             System.out.println(name + ", your current chips: " + chips);
             System.out.println("Current bet to call: " + potCurrentBet);
             System.out.println("Pot size: " + pot.getPotSize());
-            System.out.print("Enter your action (fold, call, check, raise): ");
+            System.out.print(
+                "Enter your action (fold, call, check, raise, all in): "
+            );
             String action = scanner.nextLine().toLowerCase();
             switch (action) {
                 case "fold":
@@ -100,11 +102,28 @@ public class Player {
                     placeBet(Math.min(potCurrentBet - this.currentBet, chips));
                     System.out.println();
                     return;
+                case "all in":
+                    System.out.println(
+                        name + " goes ALL IN with " + chips + " chips!"
+                    );
+                    placeBet(chips);
+                    System.out.println();
+                    return;
                 case "raise":
-                    System.out.print("Enter total chips to put in (min " + (potCurrentBet - this.currentBet + 1) + ", max " + chips + "): ");
+                    int minRaise = Math.min(
+                        potCurrentBet - this.currentBet + 1,
+                        chips
+                    );
+                    System.out.print(
+                        "Enter total chips to put in (min " +
+                            minRaise +
+                            ", max " +
+                            chips +
+                            "): "
+                    );
                     int raiseAmount = scanner.nextInt();
                     scanner.nextLine();
-                    if (raiseAmount < (potCurrentBet - this.currentBet + 1) || raiseAmount > chips) {
+                    if (raiseAmount < minRaise || raiseAmount > chips) {
                         System.out.println("Invalid raise amount.");
                         break;
                     }
