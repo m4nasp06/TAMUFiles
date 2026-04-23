@@ -15,8 +15,9 @@ public class GameGUI extends JFrame{
         setSize(GameConstants.WIDTH * DisplayParameters.CELL_SIZE, GameConstants.HEIGHT * DisplayParameters.CELL_SIZE);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        // TODO: Initialize the SnakeGame and DisplayPanel
-        
+        game = new SnakeGame();
+        DisplayPanel panel = new DisplayPanel(game);
+        add(panel);
     }
 
     public static void main(String[] args) {

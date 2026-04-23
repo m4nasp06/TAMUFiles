@@ -1,4 +1,6 @@
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Point;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -17,22 +19,39 @@ public class DisplayPanel extends JPanel implements ActionListener, KeyListener 
 	/**
 	 * Constructor to initialize the display panel.
 	 * @param game The SnakeGame instance to display.
-	 */	
+	 */
 	public DisplayPanel(SnakeGame game) {
-		// TODO: Initialize the panel with the game instance,
-		// set up a timer for repainting every 100ms,
-		// and add a key listener for user input.
+		this.game = game;
+		setBackground(DisplayParameters.BACKGROUND_COLOR);
+		setFocusable(true);
+		addKeyListener(this);
+		timer = new Timer(DisplayParameters.TIMER_DELAY, this);
+		timer.start();
 	}
 
-	/** 
+	/**
 	 * Paint the current game state.
 	 */
 	@Override
 	protected void paintComponent(Graphics g) {
 		super.paintComponent(g);
-        int cellSize = DisplayParameters.CELL_SIZE;
+		int cellSize = DisplayParameters.CELL_SIZE;
 
-		// TODO: Draw the background, snake, and apple
+		// Draw player 1 snake
+		g.setColor(DisplayParameters.SNAKE_COLOR);
+		for (Point p : game.snake.snake) {
+			g.fillOval(p.x * cellSize, p.y * cellSize, cellSize, cellSize);
+		}
+
+		// Draw player 2 snake
+		g.setColor(new Color(0, 220, 80));
+		for (Point p : game.snake2.snake) {
+			g.fillOval(p.x * cellSize, p.y * cellSize, cellSize, cellSize);
+		}
+
+		// Draw apple
+		g.setColor(DisplayParameters.APPLE_COLOR);
+		g.fillOval(game.apple.x * cellSize, game.apple.y * cellSize, cellSize, cellSize);
 	}
 
 	@Override
@@ -43,9 +62,28 @@ public class DisplayPanel extends JPanel implements ActionListener, KeyListener 
 
 	@Override
 	public void keyPressed(KeyEvent e) {
-		// TODO: Handle key presses to control the snake's direction.
-		// Use WASD keys for movement and ESC to exit.
-		// Spacebar to pause/resume the game.
+		int key = e.getKeyCode();
+
+		// Player 1: WASD
+		if (key == KeyEvent.VK_W) game.userInput(GameConstants.UP);
+		else if (key == KeyEvent.VK_S) game.userInput(GameConstants.DOWN);
+		else if (key == KeyEvent.VK_A) game.userInput(GameConstants.LEFT);
+		else if (key == KeyEvent.VK_D) game.userInput(GameConstants.RIGHT);
+
+		// Player 2: Arrow keys
+		else if (key == KeyEvent.VK_UP) game.userInput2(GameConstants.UP);
+		else if (key == KeyEvent.VK_DOWN) game.userInput2(GameConstants.DOWN);
+		else if (key == KeyEvent.VK_LEFT) game.userInput2(GameConstants.LEFT);
+		else if (key == KeyEvent.VK_RIGHT) game.userInput2(GameConstants.RIGHT);
+
+		// Pause / resume with Space
+		else if (key == KeyEvent.VK_SPACE) {
+			if (game.timer.isRunning()) game.timer.stop();
+			else game.timer.start();
+		}
+
+		// Exit with Escape
+		else if (key == KeyEvent.VK_ESCAPE) System.exit(0);
 	}
 
 	@Override
