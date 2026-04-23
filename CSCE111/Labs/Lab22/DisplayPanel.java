@@ -22,6 +22,9 @@ public class DisplayPanel extends JPanel implements ActionListener, KeyListener 
 	 */
 	public DisplayPanel(SnakeGame game) {
 		this.game = game;
+		setPreferredSize(new java.awt.Dimension(
+			GameConstants.WIDTH * DisplayParameters.CELL_SIZE,
+			GameConstants.HEIGHT * DisplayParameters.CELL_SIZE));
 		setBackground(DisplayParameters.BACKGROUND_COLOR);
 		setFocusable(true);
 		addKeyListener(this);

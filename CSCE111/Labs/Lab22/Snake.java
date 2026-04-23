@@ -7,6 +7,7 @@ import java.util.ArrayList;
  */
 public class Snake {
 	public int direction;
+	public int lastDirection;
     public int length;
 	public ArrayList<Point> snake = new ArrayList<>();
 
@@ -18,6 +19,7 @@ public class Snake {
         // moving to the right, with a length of 5
         length = 5;
         direction = GameConstants.RIGHT;
+        lastDirection = GameConstants.RIGHT;
         Point head = new Point(GameConstants.WIDTH / 2, GameConstants.HEIGHT / 2);
         snake.add(head);
 
@@ -32,7 +34,7 @@ public class Snake {
         // TODO: Update the snake's direction, 
         // ensuring it cannot reverse onto itself
         // up is 0, down is 1, left is 2, right is 3
-        if ((this.direction + direction) == 1 || (this.direction + direction) == 5) {
+        if ((lastDirection + direction) == 1 || (lastDirection + direction) == 5) {
             return;
         }
         this.direction = direction;
@@ -49,6 +51,7 @@ public class Snake {
         // edges when the snake goes off-screen. 
         // Check that the snake does not collide with itself.
         // If the snake collides with itself, throw a RuntimeException.
+        lastDirection = direction;
         Point nextHead = new Point();
         // up is 0, down is 1, left is 2, right is 3
         if (direction == GameConstants.UP) {

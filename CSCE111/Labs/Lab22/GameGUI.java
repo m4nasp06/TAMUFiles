@@ -18,6 +18,7 @@ public class GameGUI extends JFrame{
         game = new SnakeGame();
         DisplayPanel panel = new DisplayPanel(game);
         add(panel);
+        pack();
     }
 
     public static void main(String[] args) {
