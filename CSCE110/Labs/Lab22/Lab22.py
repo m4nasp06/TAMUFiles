@@ -51,28 +51,3 @@ class Truck(RentalVehicle):
             self.maintenance_status = "Requires Certified Weight Inspection"
             return "Requires Certified Weight Inspection"
         return super().perform_inspection()
-
-
-if __name__ == "__main__":
-    ev = ElectricVehicle("Tesla", "Model Y", 89.00, 75)
-    print(ev.fuel_type)
-    print(ev.refuel(45))
-    print(ev.charge_cycles)
-
-    ev = ElectricVehicle("Rivian", "R1S", 120.00, 135)
-    print(ev)
-
-    ev = ElectricVehicle("Nissan", "Leaf", 45.00, 40)
-    print(ev.apply_mileage_charge(150))
-    print(ev.apply_mileage_charge(80))
-
-    heavy_truck = Truck("Ford", "F-350", 100.00, 6.2)
-    print(heavy_truck.calculate_rental_cost(5))
-    print(heavy_truck.can_rent(22))
-    print(heavy_truck.can_rent(26))
-
-    commercial_truck = Truck("Freightliner", "M2", 250.00, 8.0)
-    print(commercial_truck)
-
-    super_truck = Truck("Volvo", "VHD", 350.00, 15.0)
-    print(super_truck.perform_inspection())

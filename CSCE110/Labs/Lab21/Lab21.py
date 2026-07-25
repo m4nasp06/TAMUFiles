@@ -31,20 +31,3 @@ class Laptop(ElectronicDevice):
     def upgrade_ram(self, additional_ram):
         self.ram_gb += additional_ram
         return f"{self.brand} {self.model} upgraded to {self.ram_gb}GB RAM."
-
-
-if __name__ == "__main__":
-    device = ElectronicDevice("Generic", "Gadget", 100.00)
-    device.apply_discount(15)
-    print(device)
-
-    phone = SmartPhone("Google", "Pixel 8", 699.99, 128)
-    print(phone.install_app("Mobile Python IDE"))
-    phone.apply_discount(10)
-    print(phone)
-
-    laptop = Laptop("Dell", "XPS 13", 1199.99, 16)
-    print(laptop.upgrade_ram(16))
-
-    phone2 = SmartPhone("Google", "Pixel 8", 629.99, 128)
-    print(phone2 < laptop)
