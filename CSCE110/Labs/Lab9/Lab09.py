@@ -1,39 +1,36 @@
-# convert the returns to prints for all functions
-
-
 def remove_string(s, n):
     if n == 0:
-        print(s)
-    elif n >= len(s):
-        print("too long")
+        return s
     elif n == len(s):
-        print("empty string")
+        return "empty string"
+    elif n > len(s):
+        return "too long"
     else:
-        print(s[n:])
+        return s[n:]
 
 
-# print(remove_string("abcdefg", 3))  # evaluates to 'defg'
-# print(remove_string("abcdefg", 10))  # evaluates to 'too long'
-# print(remove_string("abcdefg", 7))  # evaluates to 'empty string'
-# print(remove_string("abcdefg", 0))  # evaluates to 'abcdefg'
+# remove_string('abcdefg', 3)    # evaluates to 'defg'
+# remove_string('abcdefg', 10)   # evaluates to 'too long'
+# remove_string('abcdefg', 7)    # evaluates to 'empty string'
+# remove_string('abcdefg', 0)    # evaluates to 'abcdefg'
 
 
-def f_list(list, n):
-    if len(list) == 0:
-        print("empty list")
+def f_list(lst, n):
+    if len(lst) == 0:
+        return "empty list"
     elif n == 1:
-        print(max(list))
+        return max(lst)
     elif n == 2:
-        print(sum(list))
+        return sum(lst)
     else:
-        print("Invalid op")
+        return "Invalid op"
 
 
-# print(f_list([1, 2, 3, 4], 1))  # evaluates to 4
-# print(f_list([1, 2, 3, 4], 2))
-# print(f_list([1, 2, 3, 4], 0))  # evaluates to "Invalid op"
-# print(f_list([], 1))  # evaluates to "empty list"
-# print(f_list([], 0))  # evaluates to "empty list"
+# f_list([1, 2, 3, 4], 1)                  # evaluates to 4
+# f_list([1, 2, 3, 4], 2)                  # evaluates to 10
+# f_list([1, 2, 3, 4], 0)                  # evaluates to "Invalid op"
+# f_list([], 1)                            # evaluates to "empty list"
+# f_list([], 0)                            # evaluates to "empty list"
 
 
 def check_access(role, level, badges):
@@ -43,12 +40,12 @@ def check_access(role, level, badges):
         allowed = True
     else:
         allowed = False
-    print(allowed)
+    return allowed
 
 
-# print(check_access("admin", 5, ["basic"]))                      # evaluates to True
-# print(check_access("admin", 4, ["tech"]))                       # evaluates to False
-# print(check_access("staff", 3, ["tech", "parking"]))            # evaluates to True
-# print(check_access("staff", 2, ["maintenance"]))                # evaluates to False
-# print(check_access("staff", 2, ["maintenance", "security"]))    # evaluates to True
-# print(check_access("staff", 1, ["tech", "security"]))           # evaluates to False
+# check_access("admin", 5, ["basic"])                      # evaluates to True
+# check_access("admin", 4, ["tech"])                       # evaluates to False
+# check_access("staff", 3, ["tech", "parking"])            # evaluates to True
+# check_access("staff", 2, ["maintenance"])                # evaluates to False
+# check_access("staff", 2, ["maintenance", "security"])    # evaluates to True
+# check_access("staff", 1, ["tech", "security"])           # evaluates to False
